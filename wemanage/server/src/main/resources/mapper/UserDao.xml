@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.server.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.manage.core.po.User">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_pwd" jdbcType="VARCHAR" property="userPwd"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="head" jdbcType="VARCHAR" property="head"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+            user_id,
+            user_name,
+            user_pwd,
+            nick_name,
+            mobile,
+            email,
+            status,
+            head,
+            create_time,
+            update_time
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ac_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByIds" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ac_user
+        where user_id in
+        <foreach collection="list" open="(" close=")" separator="," item="id" index="index">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ac_user
+        order by user_id
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete
+        from ac_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.manage.core.po.User"
+            useGeneratedKeys="true">
+        insert into ac_user (user_name, user_pwd, nick_name,
+                             mobile, email, status, head,
+                             create_time, update_time)
+        values (#{userName,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+                #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+                #{head,jdbcType=VARCHAR},
+                #{createTime,jdbcType=DATE}, #{updateTime,jdbcType=DATE})
+    </insert>
+
+    <insert id="batchInsert"  parameterType="com.manage.core.po.User">
+        insert into ac_user (user_name, user_pwd, nick_name,
+                             mobile, email, status, head,
+                             create_time, update_time)
+        values
+        <foreach collection="list" index="index" item="user" separator=",">
+            (
+                #{user.userName,jdbcType=VARCHAR} ,
+                #{user.userPwd,jdbcType=VARCHAR} ,
+                #{user.nickName,jdbcType=VARCHAR} ,
+                #{user.mobile,jdbcType=VARCHAR} ,
+                #{user.email,jdbcType=VARCHAR} ,
+                #{user.status,jdbcType=VARCHAR} ,
+                #{user.head,jdbcType=VARCHAR} ,
+                #{user.createTime,jdbcType=TIMESTAMP} ,
+                #{user.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateById" parameterType="com.manage.core.po.User">
+        update ac_user
+        set user_name   = #{userName,jdbcType=VARCHAR},
+            user_pwd    = #{userPwd,jdbcType=VARCHAR},
+            nick_name   = #{nickName,jdbcType=VARCHAR},
+            mobile      = #{mobile,jdbcType=VARCHAR},
+            email       = #{email,jdbcType=VARCHAR},
+            status      = #{status,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=DATE},
+            update_time = #{updateTime,jdbcType=DATE}
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ac_user
+        where user_name = #{username,jdbcType=VARCHAR}
+    </select>
+</mapper>

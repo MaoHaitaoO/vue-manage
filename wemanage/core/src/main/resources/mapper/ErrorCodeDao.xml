@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.core.dao.ErrorCodeDao">
+    <resultMap id="BaseResultMap" type="com.manage.core.po.Error">
+        <id column="error_key" jdbcType="VARCHAR" property="errorKey"/>
+        <result column="error_code" jdbcType="VARCHAR" property="errorCode"/>
+        <result column="error_msg" jdbcType="VARCHAR" property="errorMsg"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+            error_key,
+            error_code,
+            error_msg
+    </sql>
+    <select id="selectByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from co_error
+        where error_key = #{errorKey,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectErrorCodeList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from co_error
+    </select>
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.server.dao.PermissionShowDao">
+    <select id="selectPermissionByRoleIdAndParentId" resultType="com.manage.server.vo.permission.PermissionTree">
+        select p.permission_id    as permissionId,
+               p.parent_id        as parentId,
+               p.permission_exp   as permissionExp,
+               p.permission_name  as permissionName,
+               p.router_url       as routerUrl,
+               p.permission_order as permissionOrder,
+               p.type             as type,
+               case ISNULL(rp.role_id)
+                   when 0 then '1'
+                   else '0' end   as isHasPermission
+        from ac_permission p
+                 left join ac_role_permission rp on rp.permission_id = p.permission_id
+            and rp.role_id = #{roleId}
+        where p.parent_id = #{parentId}
+        order by p.permission_order
+    </select>
+
+    <select id="selectViewPermissionByUserIdAndParentId" resultType="com.manage.server.vo.permission.PermissionTree">
+        select p.permission_id    as permissionId,
+               p.parent_id        as parentId,
+               p.permission_exp   as permissionExp,
+               p.permission_name  as permissionName,
+               p.router_url       as routerUrl,
+               p.permission_order as permissionOrder,
+               p.type             as type
+        from ac_permission p
+        where exists(
+                select 1
+                from ac_user_role ur
+                         inner join ac_role_permission rp on ur.role_id = rp.role_id
+                where ur.user_id = #{userId}
+                  and rp.permission_id = p.permission_id
+            )
+          and type = '1'
+          and p.parent_id = #{parentId}
+        order by p.permission_order
+    </select>
+</mapper>

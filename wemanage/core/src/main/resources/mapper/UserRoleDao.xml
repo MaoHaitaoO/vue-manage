@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.core.dao.UserRoleDao">
+    <resultMap id="BaseResultMap" type="com.manage.core.po.UserRole">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+    </resultMap>
+
+    <select id="selectRoleByUserId" parameterType="int" resultType="com.manage.core.po.Role">
+        select r.role_id   as roleId,
+               r.role_name as roleName
+        from ac_user_role ur
+                 inner join ac_role r on ur.role_id = r.role_id
+        where ur.user_id = #{userId}
+    </select>
+</mapper>

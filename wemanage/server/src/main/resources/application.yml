@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: server
+  datasource:
+    username: root
+    password: mht
+    url: jdbc:mysql://172.24.138.64:3306/we_manage?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    #    url: jdbc:mysql://localhost:3306/we_manage?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 172.24.138.64
+    #    host: localhost
+    port: 6379
+    password: IPv2O5rK
+    #    password: mht
+    jedis:
+      pool:
+        max-active: 200
+        max-wait: -1
+        max-idle: 10
+        min-idle: 0
+    timeout: 1000
+  resources:
+    static-locations: classpath:/upload,file:/upload
+
+
+
+server:
+  port: 8080
+
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.manage.core.po
+
+logging:
+  level:
+    com:
+      manage: debug
+  file:
+    path: /cfgevr/log
+    name: we-manage.log
+
+file:
+  upload-dir:
+    default: upload
+    head: upload/head
+  download-dir:
+    default: upload
+
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+
+
+
+
+

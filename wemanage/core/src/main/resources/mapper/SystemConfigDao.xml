@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.core.dao.SystemConfigDao">
+  <resultMap id="BaseResultMap" type="com.manage.core.po.SystemConfig">
+    <id column="config_key" jdbcType="VARCHAR" property="configKey" />
+    <result column="config_value" jdbcType="VARCHAR" property="configValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    config_key, config_value
+  </sql>
+  <select id="selectByKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from co_system_config
+    where config_key = #{configKey,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.manage.core.po.SystemConfig">
+    insert into co_system_config (config_key, config_value)
+    values (#{configKey,jdbcType=VARCHAR}, #{configValue,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from co_system_config
+  </select>
+</mapper>
