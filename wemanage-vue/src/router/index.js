@@ -20,36 +20,36 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: () => import(Login)
     }, {
       path: '/',
       name: 'index',
-      component: Index,
+      component: () => import(Index),
       children: [
         {
           path: '/foo',
           name: 'foo',
-          component: Foo
+          component: () => import(Foo)
         }, {
           path: '/notFound',
           name: 'notFound',
-          component: NotFound
-        },{
+          component: () => import(NotFound)
+        }, {
           path: '/updown',
           name: 'updown',
-          component: Updown
-        },{
+          component: () => import(Updown)
+        }, {
           path: '/user',
           name: 'user',
-          component: User
-        },{
+          component: () => import(User)
+        }, {
           path: '/refreshCache',
           name: 'RefreshCache',
-          component: RefreshCache
-        },{
+          component: () => import(RefreshCache)
+        }, {
           path: '/permission',
           name: 'Permission',
-          component: Permission
+          component: () => import(Permission)
         }
       ]
     }
