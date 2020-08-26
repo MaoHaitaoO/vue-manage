@@ -20,7 +20,8 @@
     name: "AsideDynamic",
     props: {
       routerList: {
-        type: Array
+        type: Array,
+        required: true
       }
     },
     methods: {},
