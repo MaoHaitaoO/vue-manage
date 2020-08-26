@@ -25,3 +25,13 @@
 hs_err_pid*
 
 /.idea/
+.DS_Store
+wemanage/.DS_Store
+wemanage/.mvn/
+wemanage/core/.mvn/
+wemanage/core/src/main/java/com/manage/core/anno/
+wemanage/core/src/main/java/com/manage/core/service/
+wemanage/server/.mvn/
+wemanage/server/src/main/java/com/manage/server/dto/
+wemanage/server/src/main/java/com/manage/server/sys/interceptor/
+wemanage/server/src/main/resources/upload/
